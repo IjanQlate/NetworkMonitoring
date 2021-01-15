@@ -31,34 +31,42 @@ pre {
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a href="index.php" class="nav-item nav-link">Remote Control</a>
+                <a href="remotecontrol.php" class="nav-item nav-link">Remote Control</a>
                 <a href="networkdevices.php" class="nav-item nav-link">Network Devices</a>
                 <a href="networkping.php" class="nav-item nav-link active">Ping</a>
                 <a href="networktrace.php" class="nav-item nav-link">Network Trace</a>
                 <a href="networklog.php" class="nav-item nav-link">Log</a>
             </div>
             <div class="navbar-nav ml-auto">
-                <!-- <a href="#" class="nav-item nav-link">Login</a> -->
+                <a href="#" class="nav-item nav-link">Logout</a>
             </div>
         </div>
     </nav>
 </div>
 <div class="container">
 
-    <h6>Host Address / Name</h6>
-    <form>
-        <div class="form-row">
-            <div class="col">
-                <input type="text" class="form-control" id="email" placeholder="Host Address / Name" name="email">
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-primary">Start</button>
-                <button type="button" class="btn btn-outline-danger">Stop</button>
-            </div>
+    <div class="card">
+        <div class="card-header" style="border: none;">
+            <h4>Host Address / Name</h4> 
         </div>
-    </form>
-    <div class="card-body">
-        <pre class="anyClass" id="data_configuration">Result</pre>
+        <div class="card-body" >
+            <form>
+                <div class="form-group row">
+                    <label for="inputPassword" class="col-sm-2 col-form-label">Host Address / Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="email" placeholder="Host Address / Name" name="email">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-outline-primary">Start</button>
+                        <button type="button" class="btn btn-outline-danger">Stop</button>
+                    </div>
+                </div>
+            </form>
+            <pre class="anyClass" id="data_configuration">Output Command</pre>
+        </div>
+        <div class="card-footer">
+            <span>Develop By for OUM PROJECT</span>
+        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

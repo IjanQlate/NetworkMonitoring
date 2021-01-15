@@ -31,13 +31,14 @@
                             </a>
                         </div>
                         <div class="page-links">
-                            <a href="index.php" class="active">Login</a><a href="register.php">Register</a>
+                            <a href="index.php">Login</a><a href="register.php" class="active">Register</a>
                         </div>
-                        <form action="remotecontrol.php">
-                            <input class="form-control" type="text" name="username" placeholder="E-mail Address" required>
+                        <form>
+                            <input class="form-control" type="text" name="name" placeholder="Full Name" required>
+                            <input class="form-control" type="email" name="email" placeholder="E-mail Address" required>
                             <input class="form-control" type="password" name="password" placeholder="Password" required>
                             <div class="form-button">
-                                <button id="submit" type="submit" class="ibtn">Login</button>
+                                <button id="submit" type="submit" class="ibtn">Register</button>
                             </div>
                         </form>
                     </div>

@@ -6,10 +6,9 @@
 <title>Network Monitoring</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <style>
-body {background-color: #def3fa;}
+body {background-color: #def3fa;}    
 .bs-example{
     margin: 20px;
 }
@@ -21,12 +20,6 @@ pre {
     color: #1CA6D1;
     padding: 9.5px;
     font-size: 14px;
-}
-.dataTables_wrapper .myfilter .dataTables_filter {
-    float:right
-}
-.dataTables_wrapper .mylength .dataTables_length {
-    float:left
 }
 </style>
 </head>
@@ -40,11 +33,11 @@ pre {
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a href="remotecontrol.php" class="nav-item nav-link">Remote Control</a>
+                <a href="remotecontrol.php" class="nav-item nav-link active">Remote Control</a>
                 <a href="networkdevices.php" class="nav-item nav-link">Network Devices</a>
                 <a href="networkping.php" class="nav-item nav-link">Ping</a>
                 <a href="networktrace.php" class="nav-item nav-link">Network Trace</a>
-                <a href="networklog.php" class="nav-item nav-link active">Log</a>
+                <a href="networklog.php" class="nav-item nav-link">Log</a>
             </div>
             <div class="navbar-nav ml-auto">
                 <a href="index.php" class="nav-item nav-link">Logout</a>
@@ -54,48 +47,45 @@ pre {
 </div>
 <div class="container">
 
-    <div class="card">
-        <div class="card-body" >
-            <h4>Network Log</h4> 
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Activity</th>
-                                <th>Log File</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+
+<div class="card">
+  <div class="card-header" style="border: none;"><h4>Remote Controller</h4> </div>
+  <div class="card-body" >
+
+    <form>
+        <div class="form-row">
+            <div class="col">
+                <select name="" id=""  class="js-example-basic-single input-lg" style="width: 100%">
+                    <option value="">Select Remote Controller</option>
+                    <option value="Shutdown">Shutdown</option>
+                    <option value="Restart">Restart</option>
+                    <option value="Log Off">Log Off</option>
+                    <option value="Abort">Abort</option>
+                </select>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="email" placeholder="Input Destination IP Address and choose remote command" name="email">
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-outline-primary">Remote Command</button>
             </div>
         </div>
-        <div class="card-footer">
-            <span>Develop By for OUM PROJECT</span>
-        </div>
-    </div>
+    </form>
+
+  </div>
+  <div class="card-footer">
+    <pre class="anyClass" id="data_configuration">Output Command</pre>
+  </div>
+</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#example').DataTable({
-        "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": false,
-    "bAutoWidth": false,
-    dom:"<'myfilter'f><'mylength'l>t"
-    });
-} );
+    $('.js-example-basic-single').select2();
+});
 </script>
 </body>
 </html>
