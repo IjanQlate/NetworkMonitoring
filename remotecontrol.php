@@ -35,6 +35,7 @@ pre {
             <div class="navbar-nav">
                 <a href="remotecontrol.php" class="nav-item nav-link active">Remote Control</a>
                 <a href="networkdevices.php" class="nav-item nav-link">Network Devices</a>
+                <a href="networkmonitor.php" class="nav-item nav-link">Network Monitor</a>
                 <a href="networkping.php" class="nav-item nav-link">Ping</a>
                 <a href="networktrace.php" class="nav-item nav-link">Network Trace</a>
                 <a href="networklog.php" class="nav-item nav-link">Log</a>
@@ -85,6 +86,9 @@ pre {
 <script>
 $(document).ready(function() {
     $('.js-example-basic-single').select2();
+
+    
+
 });
 </script>
 </body>
