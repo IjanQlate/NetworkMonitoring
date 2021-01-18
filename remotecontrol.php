@@ -68,7 +68,7 @@ pre {
                 <input type="text" class="form-control" id="email" placeholder="Input Destination IP Address and choose remote command" name="email">
             </div>
             <div class="col">
-                <button type="button" class="btn btn-outline-primary">Remote Command</button>
+                <button type="button" class="btn btn-outline-primary" id="SendRemoteCommand">Remote Command</button>
             </div>
         </div>
     </form>
@@ -87,7 +87,24 @@ pre {
 $(document).ready(function() {
     $('.js-example-basic-single').select2();
 
-    
+    $("#SendRemoteCommand").click(function () {
+
+        $.ajax({
+            url "",
+            dataType: "",
+            type: "",
+            data: {
+
+            },
+            success: function (data_response) {
+
+            }
+        })
+
+    });
+
+
+
 
 });
 </script>
