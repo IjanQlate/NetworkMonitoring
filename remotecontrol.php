@@ -56,7 +56,7 @@ pre {
     <form>
         <div class="form-row">
             <div class="col">
-                <select name="" id=""  class="js-example-basic-single input-lg" style="width: 100%">
+                <select name="remotecontrol" id="remotecontrol"  class="js-example-basic-single input-lg" style="width: 100%">
                     <option value="">Select Remote Controller</option>
                     <option value="Shutdown">Shutdown</option>
                     <option value="Restart">Restart</option>
@@ -65,7 +65,7 @@ pre {
                 </select>
             </div>
             <div class="col">
-                <input type="text" class="form-control" id="email" placeholder="Input Destination IP Address and choose remote command" name="email">
+                <input type="text" class="form-control" id="ipaddress" placeholder="Input Destination IP Address and choose remote command" name="ipaddress">
             </div>
             <div class="col">
                 <button type="button" class="btn btn-outline-primary" id="SendRemoteCommand">Remote Command</button>
@@ -94,7 +94,8 @@ $(document).ready(function() {
             dataType: "POST",
             type: "JSON",
             data: {
-
+                "function": $("#remotecontrol").val(),
+                "ipaddress": $("#ipaddress").val()
             },
             success: function (data_response) {
                 alert(data_response)
@@ -102,9 +103,6 @@ $(document).ready(function() {
         })
 
     });
-
-
-
 
 });
 </script>
