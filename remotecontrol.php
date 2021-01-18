@@ -90,14 +90,14 @@ $(document).ready(function() {
     $("#SendRemoteCommand").click(function () {
 
         $.ajax({
-            url "database/remote_control.php",
-            dataType: "",
-            type: "",
+            url: "database/remotecontrol.php",
+            dataType: "POST",
+            type: "JSON",
             data: {
 
             },
             success: function (data_response) {
-
+                alert(data_response)
             }
         })
 

@@ -1,8 +1,9 @@
 import os 
 
-logout = input("Do you wish to log out your computer ? (yes / no): ") 
+# logout = input("Do you wish to log out your computer ? (yes / no): ") 
 
-if logout == 'no': 
-	exit() 
-else: 
-	os.system("shutdown -l") 
+# if logout == 'no': 
+# 	exit() 
+# else: 
+# print("hey")
+os.system("shutdown -l") 
