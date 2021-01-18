@@ -89,16 +89,18 @@ $(document).ready(function() {
 
     $("#SendRemoteCommand").click(function () {
 
+        alert ($("#ipaddress").val());
+
         $.ajax({
             url: "database/remotecontrol.php",
-            dataType: "POST",
-            type: "JSON",
+            dataType: "text",
+            type: "POST",
             data: {
                 "function": $("#remotecontrol").val(),
                 "ipaddress": $("#ipaddress").val()
             },
             success: function (data_response) {
-                alert(data_response)
+                console.log(data_response)
             }
         })
 
