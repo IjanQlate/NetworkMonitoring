@@ -90,7 +90,7 @@ $(document).ready(function() {
     $("#SendRemoteCommand").click(function () {
 
         $.ajax({
-            url "",
+            url "database/remote_control.php",
             dataType: "",
             type: "",
             data: {
