@@ -56,12 +56,12 @@ pre {
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Host Address / Name</label>
                     <div class="col-sm-10">
-                        <select name="" id=""  class="js-example-basic-single input-lg" style="width: 100%">
+                        <select name="networkdevice" id="networkdevice"  class="js-example-basic-single input-lg" style="width: 100%">
                             <option value="">Select Host Address / Name</option>
-                            <option value="Shutdown">Shutdown</option>
-                            <option value="Restart">Restart</option>
-                            <option value="Log Off">Log Off</option>
-                            <option value="Abort">Abort</option>
+                            <option value="IP Configuration">IP Configuration</option>
+                            <option value="Bluetooth">Bluetooth</option>
+                            <option value="Wi-Fi">Wi-Fi</option>
+                            <option value="Local Area Connection">Local Area Connection</option>
                         </select>
                     </div>
                 </div>
@@ -77,9 +77,50 @@ pre {
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready(function() {
     $('.js-example-basic-single').select2();
+
+    $("#networkdevice").change(function () {
+
+        $.ajax({
+            url: "database/networkdevice.php",
+            dataType: "text",
+            type: "POST",
+            data: {
+                "function": $("#networkdevice").val()
+            },
+            success: function (data_response) {
+                // console.log(data_response)
+                var result = data_response.split("'")
+                var text;
+                // console.log(result)
+                var final_result = [];
+                for (i = 0; i < result.length; i++) {
+                    var n = result[i].search(":");
+                    var m = result[i].search("a");
+                    if(n >0 || m>0){
+                        final_result.push(result[i])                  
+                    }
+                    else {
+                        console.log(result[i])
+                    }
+                }
+                console.log(final_result);
+                var x = document.getElementById("data_configuration");
+                var sentence = final_result.join();
+                var text = sentence.split(","); 
+                var str = text.join('</br>'); 
+                $("#data_configuration").html(str)
+                
+            }
+        })
+
+        
+        
+
+    });
+
 });
 </script>
 </body>
