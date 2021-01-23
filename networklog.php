@@ -1,3 +1,10 @@
+<?php 
+include 'database/dbconfig.php'; 
+if (empty($_SESSION['fullname'])){
+  header("Location: http://localhost/NetworkMonitoring/index.php");
+  die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

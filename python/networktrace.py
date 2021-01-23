@@ -2,7 +2,7 @@ import sys
 from subprocess import Popen
 
 if len(sys.argv) < 2:
-    print('Usage: ping.py "command to watch"')
+    print('Usage: networktrace.py "command to watch"')
     sys.exit(1)
 
 cmd_line = sys.argv[1:]

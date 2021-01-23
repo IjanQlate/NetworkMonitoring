@@ -1,3 +1,10 @@
+<?php 
+include 'database/dbconfig.php'; 
+if (empty($_SESSION['fullname'])){
+  header("Location: http://localhost/NetworkMonitoring/index.php");
+  die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,11 +62,10 @@ pre {
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Host Address / Name</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="email" placeholder="Host Address / Name" name="email">
+                        <input type="text" class="form-control" id="hostaddress" placeholder="Host Address / Name" name="hostaddress">
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-outline-primary">Start</button>
-                        <button type="button" class="btn btn-outline-danger">Stop</button>
+                        <button type="button" id="BtnStartPing" class="btn btn-outline-primary">Ping</button>
                     </div>
                 </div>
             </form>
@@ -74,7 +80,39 @@ pre {
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
+$(document).ready(function() {
 
+    $("#BtnStartPing").on("click", function () {
+
+        if ($("#hostaddress").val()) {
+
+            $("#data_configuration").html("Running.......");
+            $("#BtnStartPing").text("Please wait...").attr("disabled", true);
+
+            $.ajax({
+                url: "database/ping.php",
+                dataType: "text",
+                type: "POST",
+                data: {
+                    "hostaddress": $("#hostaddress").val()
+                },
+                success: function (data_response) {
+
+                    console.log(data_response);
+                    $("#data_configuration").html(data_response);
+                    $("#BtnStartPing").text("Ping").attr("disabled", false);
+
+                }
+
+            });
+
+        } else {
+            alert ("Please enter host address / name");
+        }
+
+    });
+
+});
 </script>
 </body>
 </html>

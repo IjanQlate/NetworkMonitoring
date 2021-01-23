@@ -1,3 +1,8 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,11 +38,11 @@
                         <div class="page-links">
                             <a href="index.php" class="active">Login</a><a href="register.php">Register</a>
                         </div>
-                        <form action="remotecontrol.php">
+                        <form id="formLogin" method="post" action="database/login.php">
                             <input class="form-control" type="text" name="username" placeholder="E-mail Address" required>
                             <input class="form-control" type="password" name="password" placeholder="Password" required>
                             <div class="form-button">
-                                <button id="submit" type="submit" class="ibtn">Login</button>
+                                <button type="button" id="BtnLogin" class="ibtn">Login</button>
                             </div>
                         </form>
                     </div>
@@ -49,5 +54,42 @@
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
+<!-- Jquery validate -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js"></script>
+<script>
+// Call the dataTables jQuery plugin
+$(document).ready(function() {
+
+    var form = $("#formLogin");
+    form.validate();
+
+    $("#BtnLogin").on("click", function() {
+
+        if (form.valid()) {
+  
+            $.ajax({
+                url: form.attr("action"),
+                dataType: "json",
+                type: form.attr("method"),
+                data: form.serialize()+"&function=login",
+                success: function(dataresponse) {
+
+                    console.log(dataresponse);
+                    if (dataresponse.status == "success") {
+                        window.location.replace("http://localhost/NetworkMonitoring/remotecontrol.php");
+                    } else {
+                        alert (dataresponse.message);
+                    }
+
+                }
+            });
+
+        }
+
+    });
+
+});
+</script>
 </body>
 </html>

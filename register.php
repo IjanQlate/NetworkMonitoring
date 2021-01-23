@@ -1,3 +1,8 @@
+<?php
+session_start();
+session_unset();
+session_destroy();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,12 +38,12 @@
                         <div class="page-links">
                             <a href="index.php">Login</a><a href="register.php" class="active">Register</a>
                         </div>
-                        <form>
+                        <form id="formRegister" action="database/login.php" method="Post">
                             <input class="form-control" type="text" name="name" placeholder="Full Name" required>
                             <input class="form-control" type="email" name="email" placeholder="E-mail Address" required>
                             <input class="form-control" type="password" name="password" placeholder="Password" required>
                             <div class="form-button">
-                                <button id="submit" type="submit" class="ibtn">Register</button>
+                                <button id="BtnRegister" type="button" class="ibtn">Register</button>
                             </div>
                         </form>
                     </div>
@@ -50,5 +55,41 @@
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/main.js"></script>
+<!-- Jquery validate -->
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js"></script>
+<script>
+// Call the dataTables jQuery plugin
+$(document).ready(function() {
+
+    var form = $("#formRegister");
+    form.validate();
+
+    $("#BtnRegister").on("click", function() {
+
+        if (form.valid()) {
+  
+            $.ajax({
+                url: form.attr("action"),
+                dataType: "json",
+                type: form.attr("method"),
+                data: form.serialize()+"&function=register",
+                success: function(dataresponse) {
+
+                    console.log(dataresponse);
+                    alert (dataresponse.message);
+                    if (dataresponse.status == "success") {
+                        window.location.replace("http://localhost/NetworkMonitoring/");
+                    }
+
+                }
+            });
+
+        }
+
+    });
+
+});
+</script>
 </body>
 </html>

@@ -1,3 +1,10 @@
+<?php 
+include 'database/dbconfig.php'; 
+if (empty($_SESSION['fullname'])){
+  header("Location: http://localhost/NetworkMonitoring/index.php");
+  die();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,11 +71,10 @@ pre {
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">Host Address / Name</label>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" id="email" placeholder="Host Address / Name" name="email">
+                        <input type="text" class="form-control" id="hostaddress" placeholder="Host Address / Name" name="hostaddress">
                     </div>
                     <div class="col-sm-2">
-                        <button type="button" class="btn btn-outline-primary">Start</button>
-                        <button type="button" class="btn btn-outline-danger">Stop</button>
+                        <button type="button" id="BtnTrace" class="btn btn-outline-primary">Trace</button>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -87,6 +93,7 @@ pre {
                         </table>
                     </div>
                 </div>
+                <pre class="anyClass" id="data_configuration">Output Command</pre>
             </form>
         </div>
         <div class="card-footer">
@@ -101,14 +108,68 @@ pre {
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#example').DataTable({
+    
+    var table = $('#example').DataTable({
         "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": false,
-    "bAutoWidth": false,
-    dom:"<'myfilter'f><'mylength'l>t"
+        "bLengthChange": false,
+        "bFilter": true,
+        "bInfo": false,
+        "bAutoWidth": false,
+        dom:"<'myfilter'f><'mylength'l>t"
     });
+
+
+    $("#BtnTrace").on("click", function () {
+
+        if ($("#hostaddress").val()) {
+
+            $("#data_configuration").html("Running.......");
+            $("#BtnTrace").text("Please wait...").attr("disabled", true);
+
+            $.ajax({
+                url: "database/networktrace.php",
+                dataType: "text",
+                type: "POST",
+                data: {
+                    "hostaddress": $("#hostaddress").val()
+                },
+                success: function (data_response) {
+
+                    // console.log(data_response);
+                    $("#data_configuration").html(data_response);
+                    $("#BtnTrace").text("Trace").attr("disabled", false);
+
+                    var fruits = [];
+                    var ks = data_response.split("\n");
+
+                    for (var i=0; i<ks.length; i++) {
+                        if (i > 3 && i <ks.length-3 ) {
+                            fruits.push(ks[i]);
+                        }
+                        
+                    }
+
+                    $.each(fruits, function(index, value){
+                        console.log(index + ": " + value);
+
+
+                    });
+
+                    // newRowContent = "<tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>";
+
+                    // $("#example tbody").append(newRowContent);
+
+
+                }
+
+            });
+
+        } else {
+            alert ("Please enter host address / name");
+        }
+
+    });
+
 } );
 </script>
 </body>
