@@ -1,6 +1,6 @@
 import os, sys
 
-command = "shutdown /r /t 1 \\{}".format(sys.argv[1])
+command = "shutdown /m /r \\{}".format(sys.argv[1])
 
 os.system(command)
 
