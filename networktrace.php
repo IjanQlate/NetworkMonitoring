@@ -96,6 +96,32 @@ pre {
                 <pre class="anyClass" id="data_configuration">Output Command</pre>
             </form>
         </div>
+
+  <!-- The Modal -->
+  <div class="modal fade" id="modalmessage">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Response Message</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+        <p id="modalmsg"></p>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
         <div class="card-footer">
             <span>Develop By for OUM PROJECT</span>
         </div>
@@ -135,25 +161,36 @@ $(document).ready(function() {
                 },
                 success: function (data_response) {
 
-                    // console.log(data_response);
-                    $("#data_configuration").html(data_response);
-                    $("#BtnTrace").text("Trace").attr("disabled", false);
 
-                    var fruits = [];
-                    var ks = data_response.split("\n");
+                    if (data_response.indexOf("Unable to resolve target system name") >= 0) {
+                        $("#modalmessage").modal("show");
+                        $("#modalmsg").text(data_response);
+                    } else {
 
-                    for (var i=0; i<ks.length; i++) {
-                        if (i > 3 && i <ks.length-3 ) {
-                            fruits.push(ks[i]);
+                        // console.log(data_response);
+                        $("#data_configuration").html(data_response);
+                        $("#BtnTrace").text("Trace").attr("disabled", false);
+
+                        var fruits = [];
+                        var ks = data_response.split("\n");
+
+                        for (var i=0; i<ks.length; i++) {
+                            if (i > 3 && i <ks.length-3 ) {
+                                fruits.push(ks[i]);
+                            }
+                            
                         }
-                        
+
+                        $.each(fruits, function(index, value){
+                            console.log(index + ": " + value);
+
+
+                        });
+
+
                     }
 
-                    $.each(fruits, function(index, value){
-                        console.log(index + ": " + value);
 
-
-                    });
 
                     // newRowContent = "<tr><td>1</td><td>1</td><td>1</td><td>1</td></tr>";
 
