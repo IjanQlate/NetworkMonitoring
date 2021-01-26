@@ -26,6 +26,17 @@ pre {
     padding: 9.5px;
     font-size: 14px;
 }
+.load-spinner .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(33% - 24px);
+  }
+
+  .load-spinner .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }
 </style>
 </head>
 <body>
@@ -41,6 +52,7 @@ pre {
                 <a href="remotecontrol.php" class="nav-item nav-link">Remote Control</a>
                 <a href="networkdevices.php" class="nav-item nav-link">Network Devices</a>
                 <a href="networkmonitor.php" class="nav-item nav-link">Network Monitor</a>
+                <a href="networkportscanner.php" class="nav-item nav-link">Port Scanner</a>
                 <a href="networkping.php" class="nav-item nav-link active">Ping</a>
                 <a href="networktrace.php" class="nav-item nav-link">Network Trace</a>
                 <a href="networklog.php" class="nav-item nav-link">Log</a>
@@ -71,11 +83,19 @@ pre {
             </form>
             <pre class="anyClass" id="data_configuration">Output Command</pre>
         </div>
-        <div class="card-footer">
-            <span>Develop By for OUM PROJECT</span>
+        <div class="card-footer text-center">
+            <span>Develop By Tineswaran A/L Balakrishen for Network Monitoring For Final Year Project OUM</span>
         </div>
     </div>
 </div>
+<div class="modal fade load-spinner" id="modalspinner" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -88,6 +108,7 @@ $(document).ready(function() {
 
             $("#data_configuration").html("Running.......");
             $("#BtnStartPing").text("Please wait...").attr("disabled", true);
+            $("#modalspinner").modal("show");
 
             $.ajax({
                 url: "database/ping.php",
@@ -99,9 +120,11 @@ $(document).ready(function() {
                 success: function (data_response) {
 
                     console.log(data_response);
-                    $("#data_configuration").html(data_response);
-                    $("#BtnStartPing").text("Ping").attr("disabled", false);
-
+                    setTimeout(function() { 
+                        $("#modalspinner").modal("hide");
+                        $("#data_configuration").html("#######################Result:#######################\n"+data_response);
+                        $("#BtnStartPing").text("Ping").attr("disabled", false);
+                    }, 2000);
                 }
 
             });

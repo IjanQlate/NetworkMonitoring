@@ -1,19 +1,32 @@
 from socket import *
-import time
+import time, sys
 startTime = time.time()
 
 if __name__ == '__main__':
-   target = input('Enter the host to be scanned: ')
+   target = sys.argv[1]
    t_IP = gethostbyname(target)
    print ('Starting scan on host: ', t_IP)
    
-   for i in range(50, 500):
+   if sys.argv[4] == "Single":
+
       s = socket(AF_INET, SOCK_STREAM)
       
-      conn = s.connect_ex((t_IP, i))
+      conn = s.connect_ex((t_IP, int(sys.argv[2])))
       if(conn == 0) :
-         print ('Port %d: OPEN' % (i,))
+         print ('Port %d: OPEN' % (int(sys.argv[2]),))
       else:
-         print ('Port %d: CLOSED' % (i,))
+         print ('Port %d: CLOSED' % (int(sys.argv[2]),))
       s.close()
+
+   else:
+
+      for i in range(int(sys.argv[2]), int(sys.argv[3])):
+         s = socket(AF_INET, SOCK_STREAM)
+         
+         conn = s.connect_ex((t_IP, i))
+         if(conn == 0) :
+            print ('Port %d: OPEN' % (i,))
+         else:
+            print ('Port %d: CLOSED' % (i,))
+         s.close()
 print('Time taken:', time.time() - startTime)

@@ -1,12 +1,14 @@
-import socket
+import socket, sys
 from datetime import datetime
-net = input("Enter the IP address: ")
+
+
+net = sys.argv[1]
 net1 = net.split('.')
 a = '.'
 
 net2 = net1[0] + a + net1[1] + a + net1[2] + a
-st1 = int(input("Enter the Starting Number: "))
-en1 = int(input("Enter the Last Number: "))
+st1 = int(sys.argv[2])
+en1 = int(sys.argv[3])
 en1 = en1 + 1
 t1 = datetime.now()
 

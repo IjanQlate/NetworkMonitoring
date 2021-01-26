@@ -28,6 +28,17 @@ pre {
     padding: 9.5px;
     font-size: 14px;
 }
+.load-spinner .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(33% - 24px);
+  }
+
+  .load-spinner .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }
 </style>
 </head>
 <body>
@@ -40,10 +51,10 @@ pre {
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a href="remotecontrol.php" class="nav-item nav-link active">Remote Control</a>
+                <a href="remotecontrol.php" class="nav-item nav-link">Remote Control</a>
                 <a href="networkdevices.php" class="nav-item nav-link">Network Devices</a>
                 <a href="networkmonitor.php" class="nav-item nav-link">Network Monitor</a>
-                <a href="networkportscanner.php" class="nav-item nav-link">Port Scanner</a>
+                <a href="networkportscanner.php" class="nav-item nav-link active">Port Scanner</a>
                 <a href="networkping.php" class="nav-item nav-link">Ping</a>
                 <a href="networktrace.php" class="nav-item nav-link">Network Trace</a>
                 <a href="networklog.php" class="nav-item nav-link">Log</a>
@@ -58,37 +69,47 @@ pre {
 
 
 <div class="card">
-  <div class="card-header" style="border: none;"><h4>Port Scanner</h4> </div>
   <div class="card-body" >
-
-    <form>
-        <div class="form-row">
-            <div class="col">
-                <input type="text" class="form-control" id="ipaddress" placeholder="Input Destination IP Address / Host Name" name="ipaddress">
-            </div>
-            <div class="col">
-                <select name="remotecontrol" id="remotecontrol"  class="js-example-basic-single input-lg" style="width: 100%">
-                    <option value="">Select Option</option>
-                    <option value="Shutdown">Single Port</option>
-                    <option value="Restart">Range Port</option>
-                </select>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" id="ipaddress" placeholder="Port Start" name="ipaddress">
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" id="ipaddress" placeholder="Port End" name="ipaddress">
-            </div>
-            <div class="col">
-                <button type="button" class="btn btn-outline-primary" id="SendRemoteCommand">Scan Port</button>
-            </div>
+    <h4>Port Scanner</h4> 
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <form class="form-inline">
+                <label for="text" class="mr-sm-2">Input Destination IP Address / Host Name:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Input Destination IP Address / Host Name" id="ipaddress_hostname">
+                <label for="text" class="mr-sm-2">Option:</label>
+                    <select name="scan_option" id="scan_option" class="form-control mb-2 mr-sm-2">
+                        <option value="">Select Option</option>
+                        <option value="Single">Single Port</option>
+                        <option value="Range">Range Port</option>
+                    </select>
+            </form>
         </div>
-    </form>
-
+        <div class="col-sm-12">
+            <form class="form-inline">
+                <label for="text" class="mr-sm-2">Port Start:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Port Start" id="portstart" readonly>
+                <label for="text" class="mr-sm-2">Port End:</label>
+                    <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Port End" id="portend" readonly>
+                <button type="button" id="BtnScan" class="btn btn-outline-primary mb-2" disabled>Scan Port</button>
+            </form>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-12">
+        <pre class="anyClass" id="data_configuration">Output Command</pre>
+        </div>
+    </div>
   </div>
-  <div class="card-footer">
-    <pre class="anyClass" id="data_configuration">Output Command</pre>
+  <div class="card-footer text-center">
+            <span>Develop By Tineswaran A/L Balakrishen for Network Monitoring For Final Year Project OUM</span>
   </div>
+</div>
+<div class="modal fade load-spinner" id="modalspinner" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
+        </div>
+    </div>
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -97,24 +118,74 @@ pre {
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.js-example-basic-single').select2();
 
-    $("#SendRemoteCommand").click(function () {
+    $("#scan_option").on("change", function() {
+        if ($("#scan_option").val() == "Single") {
+            $("#portstart").val("").attr("readonly", false);
+            $("#portend").val("").attr("readonly", true);
+            $("#BtnScan").text("Scan Port").attr("disabled", false);
+        } else if ($("#scan_option").val() == "Range") {
+            $("#portstart").val("").attr("readonly", false);
+            $("#portend").val("").attr("readonly", false);
+            $("#BtnScan").text("Scan Port").attr("disabled", false);
+        } else {
+            $("#portstart").val("").attr("readonly", true);
+            $("#portend").val("").attr("readonly", true);
+            $("#BtnScan").text("Scan Port").attr("disabled", true);
+        }
+    });
 
-        // alert ($("#ipaddress").val());
 
-        // $.ajax({
-        //     url: "database/remotecontrol.php",
-        //     dataType: "text",
-        //     type: "POST",
-        //     data: {
-        //         "function": $("#remotecontrol").val(),
-        //         "ipaddress": $("#ipaddress").val()
-        //     },
-        //     success: function (data_response) {
-        //         console.log(data_response)
-        //     }
-        // })
+    $("#BtnScan").on("click", function () {
+
+        if ($("#ipaddress_hostname").val()) {
+
+            if ($("#scan_option").val()) {
+
+                if ($("#scan_option").val() == "Single" && $("#portstart").val() == "") {
+                    alert ("Please insert Port Start");
+                } else if ($("#scan_option").val() == "Range" && $("#portstart").val() == "" && $("#portend").val() == "") {
+                    alert ("Please insert Port Start & Port End");
+                } else {
+
+                    $("#data_configuration").html("Running.......");
+                    $("#BtnScan").text("Please wait...").attr("disabled", true);
+
+                    $("#modalspinner").modal("show");
+
+                    $.ajax({
+                        url: "database/networkportscanner.php",
+                        dataType: "text",
+                        type: "POST",
+                        data: {
+                            "ipaddress_hostname": $("#ipaddress_hostname").val(),
+                            "scan_option": $("#scan_option").val(),
+                            "portstart": $("#portstart").val(),
+                            "portend": $("#portend").val()
+                        },
+                        success: function (data_response) {
+
+                            console.log(data_response);
+
+                            setTimeout(function() { 
+                                $("#modalspinner").modal("hide");
+                                $("#data_configuration").html("#######################Result:#######################\n\n"+data_response);
+                                $("#BtnScan").text("Scan Port").attr("disabled", false);
+                            }, 2000);
+
+                        }
+
+                    });
+
+                }
+
+            } else {
+                alert ("Please select option");
+            }
+
+        } else {
+            alert ("Please enter the ip address / host name");
+        }
 
     });
 

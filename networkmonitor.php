@@ -29,12 +29,18 @@ pre {
     padding: 9.5px;
     font-size: 14px;
 }
-.dataTables_wrapper .myfilter .dataTables_filter {
-    float:right
-}
-.dataTables_wrapper .mylength .dataTables_length {
-    float:left
-}
+
+.load-spinner .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(33% - 24px);
+  }
+
+  .load-spinner .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+  }
 </style>
 </head>
 <body>
@@ -50,6 +56,7 @@ pre {
                 <a href="remotecontrol.php" class="nav-item nav-link">Remote Control</a>
                 <a href="networkdevices.php" class="nav-item nav-link">Network Devices</a>
                 <a href="networkmonitor.php" class="nav-item nav-link active">Network Monitor</a>
+                <a href="networkportscanner.php" class="nav-item nav-link">Port Scanner</a>
                 <a href="networkping.php" class="nav-item nav-link">Ping</a>
                 <a href="networktrace.php" class="nav-item nav-link">Network Trace</a>
                 <a href="networklog.php" class="nav-item nav-link">Log</a>
@@ -67,24 +74,37 @@ pre {
             <h4>Network Monitor</h4> 
             <div class="form-group row">
                 <div class="col-sm-12">
-                    <table id="example" class="table table-striped table-bordered" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Activity</th>
-                                <th>Log File</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <form class="form-inline">
+                        <label for="text" class="mr-sm-2">Enter the IP Address:</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter the IP Address" id="ipaddress">
+                    </form>
+                </div>
+                <div class="col-sm-12">
+                    <form class="form-inline">
+                        <label for="text" class="mr-sm-2">Enter the Starting Number:</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter the Starting Number" id="hoststart">
+                        <label for="text" class="mr-sm-2">Enter the Last Number:</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter the Last Number" id="hostend">
+                        <button type="button" id="BtnStart" class="btn btn-primary mb-2">Start</button>
+                    </form>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                <pre class="anyClass" id="data_configuration">Output Command</pre>
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <span>Develop By for OUM PROJECT</span>
+        <div class="card-footer text-center">
+            <span>Develop By Tineswaran A/L Balakrishen for Network Monitoring For Final Year Project OUM</span>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade load-spinner" id="modalspinner" data-backdrop="static" data-keyboard="false" tabindex="-1">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" style="width: 48px">
+            <span class="fa fa-spinner fa-spin fa-3x"></span>
         </div>
     </div>
 </div>
@@ -95,15 +115,56 @@ pre {
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('#example').DataTable({
-        "bPaginate": false,
-    "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": false,
-    "bAutoWidth": false,
-    dom:"<'myfilter'f><'mylength'l>t"
+
+    $("#BtnStart").on("click", function () {
+
+        if ($("#ipaddress").val()) {
+
+            if ($("#hoststart").val()) {
+
+                if ($("#hostend").val()) {
+
+                    $("#data_configuration").html("Running.......");
+                    $("#BtnStart").text("Please wait...").attr("disabled", true);
+
+                    $("#modalspinner").modal("show");
+
+                    $.ajax({
+                        url: "database/networkmonitor.php",
+                        dataType: "text",
+                        type: "POST",
+                        data: {
+                            "ipaddress": $("#ipaddress").val(),
+                            "hoststart": $("#hoststart").val(),
+                            "hostend": $("#hostend").val()
+                        },
+                        success: function (data_response) {
+
+                            console.log(data_response);                           
+                            setTimeout(function() { 
+                                $("#modalspinner").modal("hide");
+                                $("#data_configuration").html("#######################Result:#######################\n\n"+data_response);
+                                $("#BtnStart").text("Start").attr("disabled", false);
+                            }, 2000);
+                        }
+
+                    });
+
+                } else {
+                    alert ("Please enter the last number");
+                }
+
+            } else {
+                alert ("Please enter the starting number");
+            }
+
+        } else {
+            alert ("Please enter the ip address");
+        }
+
     });
-} );
+
+});
 </script>
 </body>
 </html>
