@@ -43,8 +43,8 @@ for line in lines:
 
 
 user_input = "Bluetooth"
-# user_input = "Ethernet adapter Local Area Connection" #Jarang
-# user_input = "Ethernet adapter Ethernet"  # Jarang
+user_input = "Ethernet adapter Local Area Connection"
+user_input = "Ethernet adapter Ethernet"  # Jarang
 user_input = "Wireless LAN adapter Wi-Fi"
 user_input = "Wireless LAN adapter Local Area Connection"
 user_input = "IP Configuration"
