@@ -28,6 +28,17 @@ pre {
     padding: 9.5px;
     font-size: 14px;
 }
+.load-spinner .modal-dialog{
+    display: table;
+    position: relative;
+    margin: 0 auto;
+    top: calc(33% - 24px);
+}
+
+.load-spinner .modal-dialog .modal-content{
+    background-color: transparent;
+    border: none;
+}
 </style>
 </head>
 <body>
@@ -107,6 +118,13 @@ pre {
         </div>
 
     </div>
+    <div class="modal fade load-spinner" id="modalspinner" data-backdrop="static" data-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content" style="width: 48px">
+                <span class="fa fa-spinner fa-spin fa-3x"></span>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -118,6 +136,9 @@ $(document).ready(function() {
 
     $("#networkdevice").change(function () {
 
+        $("#data_configuration").html("Running.......");
+        $("#modalspinner").modal("show");
+
         $.ajax({
             url: "database/networkdevice.php",
             dataType: "text",
@@ -127,33 +148,44 @@ $(document).ready(function() {
             },
             success: function (data_response) {
                 // console.log(data_response)
-                if (data_response == "") { 
-                    $("#modalmessage").modal("show");
-                    $("#modalmsg").text("No Data Available. Please try another host address/name");
-                    $("#data_configuration").text("Output Command");
-                } else {
-                    var result = data_response.split("'")
-                    var text;
-                    // console.log(result)
-                    var final_result = [];
-                    for (i = 0; i < result.length; i++) {
-                        var n = result[i].search(":");
-                        var m = result[i].search("a");
-                        if(n >0 || m>0){
-                            final_result.push(result[i])                  
+                setTimeout(function() { 
+                    
+                    $("#modalspinner").modal("hide");
+                    if (data_response == "") { 
+                        $("#modalmessage").modal("show");
+                        $("#modalmsg").text("No Data Available. Please try another host address/name");
+                        $("#data_configuration").text("Output Command");
+                    } else {
+                        var result = data_response.split("'")
+                        var text;
+                        // console.log(result)
+                        var final_result = [];
+                        for (i = 0; i < result.length; i++) {
+                            var n = result[i].search(":");
+                            var m = result[i].search("a");
+                            if(n >0 || m>0){
+                                final_result.push(result[i])                  
+                            }
+                            else {
+                                console.log(result[i])
+                            }
                         }
-                        else {
-                            console.log(result[i])
-                        }
-                    }
-                    console.log(final_result);
-                    var x = document.getElementById("data_configuration");
-                    var sentence = final_result.join();
-                    var text = sentence.split(","); 
-                    var str = text.join('</br>'); 
-                    $("#data_configuration").html(str)
+                        console.log(final_result);
+                        var x = document.getElementById("data_configuration");
+                        var sentence = final_result.join();
+                        var text = sentence.split(","); 
+                        var str = text.join('</br>'); 
+                        // $("#data_configuration").html(str)
+                        $("#data_configuration").html("#######################Result:#######################\n\n"+str);
 
-                }               
+                    } 
+
+
+
+                }, 2000);
+
+
+              
             }
         })
 

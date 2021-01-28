@@ -13,12 +13,21 @@
 
 
 -- Dumping database structure for networkmonitoring
-DROP DATABASE IF EXISTS `networkmonitoring`;
 CREATE DATABASE IF NOT EXISTS `networkmonitoring` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `networkmonitoring`;
 
+-- Dumping structure for table networkmonitoring.log
+CREATE TABLE IF NOT EXISTS `log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity` varchar(250) DEFAULT NULL,
+  `logfile` text,
+  `date_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
+
 -- Dumping structure for table networkmonitoring.users
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email_address` varchar(250) DEFAULT NULL,
