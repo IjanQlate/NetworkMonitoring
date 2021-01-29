@@ -79,13 +79,35 @@ pre {
                             </tr>
                         </thead>
                         <tbody>
+                        <?php
+                        $sql = "SELECT * FROM log";
+                        $result = $conn->query($sql);
+                        
+                        if ($result->num_rows > 0) {
+                        // output data of each row
+                        $i = 1;
+                            while($row = $result->fetch_assoc()) {
+                                ?>
+                                    <tr>
+                                        <td><?php echo $i; ?></td>
+                                        <td><?php echo $row['activity']; ?></td>
+                                        <td><a href="log/<?php echo $row['logfile']; ?>" download>Download</a></td>
+                                        <td><?php echo date("Y-m-d",strtotime($row['date_time'])); ?></td>
+                                        <td><?php echo date("h:i:s A",strtotime($row['date_time'])); ?></td>
+                                    </tr>
+                                <?php
+                                $i++;
+                            }
+                        }
+                        $conn->close();
+                        ?>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        <div class="card-footer">
-            <span>Develop By for OUM PROJECT</span>
+        <div class="card-footer text-center">
+            <span>Develop By Tineswaran A/L Balakrishen for Network Monitoring For Final Year Project OUM</span>
         </div>
     </div>
 </div>

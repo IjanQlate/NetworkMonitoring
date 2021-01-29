@@ -106,7 +106,21 @@ $(document).ready(function() {
                 "ipaddress": $("#ipaddress").val()
             },
             success: function (data_response) {
-                console.log(data_response)
+                console.log(data_response);
+
+                $.ajax({
+                    url: "database/savelog.php",
+                    dataType: "text",
+                    data: {
+                        "activity": "Network Control",
+                        "result": data_response
+                    },
+                    type: "POST",
+                    success: function(response) {
+                        console.log(response);
+                    }
+                });
+
             }
         })
 

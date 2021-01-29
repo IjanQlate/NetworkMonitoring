@@ -178,9 +178,19 @@ $(document).ready(function() {
                         // $("#data_configuration").html(str)
                         $("#data_configuration").html("#######################Result:#######################\n\n"+str);
 
-                    } 
-
-
+                        $.ajax({
+                            url: "database/savelog.php",
+                            dataType: "text",
+                            data: {
+                                "activity": "Network Devices",
+                                "result": str
+                            },
+                            type: "POST",
+                            success: function(response) {
+                                console.log(response);
+                            }
+                        });
+                    }
 
                 }, 2000);
 

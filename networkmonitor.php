@@ -145,6 +145,21 @@ $(document).ready(function() {
                                 $("#modalspinner").modal("hide");
                                 $("#data_configuration").html("#######################Result:#######################\n\n"+data_response);
                                 $("#BtnStart").text("Start").attr("disabled", false);
+
+                                $.ajax({
+                                    url: "database/savelog.php",
+                                    dataType: "text",
+                                    data: {
+                                        "activity": "Network Monitor",
+                                        "result": data_response
+                                    },
+                                    type: "POST",
+                                    success: function(response) {
+                                        console.log(response);
+                                    }
+                                });
+
+
                             }, 2000);
                         }
 

@@ -171,6 +171,20 @@ $(document).ready(function() {
                                 $("#modalspinner").modal("hide");
                                 $("#data_configuration").html("#######################Result:#######################\n\n"+data_response);
                                 $("#BtnScan").text("Scan Port").attr("disabled", false);
+
+                                $.ajax({
+                                    url: "database/savelog.php",
+                                    dataType: "text",
+                                    data: {
+                                        "activity": "Network Port Scanner",
+                                        "result": data_response
+                                    },
+                                    type: "POST",
+                                    success: function(response) {
+                                        console.log(response);
+                                    }
+                                });
+
                             }, 2000);
 
                         }

@@ -193,6 +193,20 @@ $(document).ready(function() {
                             $("#data_configuration").html("#######################Result:#######################\n"+data_response);
                             $("#BtnTrace").text("Trace").attr("disabled", false);
 
+                            $.ajax({
+                                url: "database/savelog.php",
+                                dataType: "text",
+                                data: {
+                                    "activity": "Network Trace",
+                                    "result": data_response
+                                },
+                                type: "POST",
+                                success: function(response) {
+                                    console.log(response);
+                                }
+                            });
+
+
                             var fruits = [];
                             var ks = data_response.split("\n");
 
@@ -205,8 +219,6 @@ $(document).ready(function() {
 
                             $.each(fruits, function(index, value){
                                 console.log(index + ": " + value);
-
-
                             });
 
 
