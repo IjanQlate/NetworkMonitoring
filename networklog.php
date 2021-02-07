@@ -65,7 +65,7 @@ pre {
 
     <div class="card">
         <div class="card-body" >
-            <h4>Network Log</h4> 
+            <h4>Log</h4> 
             <div class="form-group row">
                 <div class="col-sm-12">
                     <table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -73,7 +73,8 @@ pre {
                             <tr>
                                 <th>No</th>
                                 <th>Activity</th>
-                                <th>Log File</th>
+                                <th>View File</th>
+                                <th>Download File</th>
                                 <th>Date</th>
                                 <th>Time</th>
                             </tr>
@@ -87,10 +88,12 @@ pre {
                         // output data of each row
                         $i = 1;
                             while($row = $result->fetch_assoc()) {
+                                $logile = $row['logfile'];
                                 ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo $row['activity']; ?></td>
+                                        <td><button class="btn btn-primary" onclick="viewlog(<?php echo $row['id']; ?>)">View</button></td>
                                         <td><a href="log/<?php echo $row['logfile']; ?>" download>Download</a></td>
                                         <td><?php echo date("Y-m-d",strtotime($row['date_time'])); ?></td>
                                         <td><?php echo date("h:i:s A",strtotime($row['date_time'])); ?></td>
@@ -119,14 +122,31 @@ pre {
 <script>
 $(document).ready(function() {
     $('#example').DataTable({
-        "bPaginate": false,
     "bLengthChange": false,
-    "bFilter": true,
-    "bInfo": false,
-    "bAutoWidth": false,
     dom:"<'myfilter'f><'mylength'l>t"
     });
-} );
+});
+
+function viewlog(logfile) {
+
+    $.ajax({
+        url: "database/log.php",
+        data: {
+            "iddisplay": logfile
+        },
+        dataType: "text",
+        type: "post",
+        success: function (dataresponse) {
+
+            if (dataresponse == "0 results") {
+                alert ("File Not Found")
+            } else {
+                alert (dataresponse);
+            }
+        }
+    });
+
+}
 </script>
 </body>
 </html>
