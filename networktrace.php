@@ -90,9 +90,9 @@ pre {
                         <button type="button" id="BtnTrace" class="btn btn-outline-primary">Trace</button>
                     </div>
                 </div>
-                <div class="form-group row" hidden>
+                <div class="form-group row">
                     <div class="col-sm-12">
-                        <table id="example" class="table table-striped table-bordered" style="width:100%">
+                        <table id="" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Hop</th>
@@ -106,7 +106,7 @@ pre {
                         </table>
                     </div>
                 </div>
-                <pre class="anyClass" id="data_configuration">Output Command</pre>
+                <!-- <pre class="anyClass" id="data_configuration">Output Command</pre> -->
             </form>
         </div>
 
@@ -190,7 +190,7 @@ $(document).ready(function() {
                         } else {
 
                             // console.log(data_response);
-                            $("#data_configuration").html("#######################Result:#######################\n"+data_response);
+                            // $("#data_configuration").html("#######################Result:#######################\n"+data_response);
                             $("#BtnTrace").text("Trace").attr("disabled", false);
 
                             $.ajax({
@@ -217,21 +217,42 @@ $(document).ready(function() {
                                 
                             }
 
+                            var table;
+                            tableBody = $("table tbody");
+                            tableBody.empty();
+
                             $.each(fruits, function(index, value){
-                                console.log(index + ": " + value);
+                                // console.log(index + ": " + value);
+                                datasplit = value.split(" ");
+                                console.log(datasplit);
+                                console.log(datasplit.length);
+                                if (datasplit.length == 25) {
+
+                                    datasecond = datasplit[23].substring(1);
+                                    datasecond = datasecond.slice(0, -1);
+                                    table += "<tr><td>"+datasplit[2]+"</td><td>"+datasecond+"</td><td>"+datasplit[22]+"</td><td>"+datasplit[7]+" ms</td></tr>";
+                                } else if (datasplit.length == 24) {
+                                    if (datasplit[7] == "ms") { datatime = datasplit[6];  } else { datatime = datasplit[7];}
+                                    if (datasplit[23] == "") { datahostname = datasplit[21]; } else { datahostname = datasplit[23]; }
+                                    datasecond = datasplit[22].substring(1);
+                                    datasecond = datasecond.slice(0, -1);
+                                    table += "<tr><td>"+datasplit[2]+"</td><td>"+datasecond +"</td><td>"+datahostname+"</td><td>"+datatime+" ms</td></tr>";
+                                } else if (datasplit.length == 23) {
+                                    if (datasplit[7] == "ms") { datatime = datasplit[6];  } else { datatime = datasplit[7];}
+                                    if (datasplit[20] == "") { datahostname = ""; } else { datahostname = datasplit[20]; }
+                                    datasecond = datasplit[21].substring(1);
+                                    datasecond = datasecond.slice(0, -1);
+                                    table += "<tr><td>"+datasplit[2]+"</td><td>"+datasecond+"</td><td>"+datahostname+"</td><td>"+datatime+" ms</td></tr>";
+                                }
+                                
                             });
+                            tableBody.append(table); 
+
 
 
                         }
 
-
-
                     }, 2000);
-
-
-
-
-
 
                 }
 

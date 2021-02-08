@@ -12,11 +12,8 @@ if ($result->num_rows > 0) {
   // output data of each row
   $row = $result->fetch_assoc();
 
-    echo $fileName = "../log/".$row["logfile"];
-    $file = fopen($fileName, "r");
-    echo fgets($file); 
-    fclose($file);
-
+    $fileName = "../log/".$row["logfile"];
+    echo readfile($fileName);
 
 } else {
   echo "0 results";
