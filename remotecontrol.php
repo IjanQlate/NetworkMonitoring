@@ -58,7 +58,40 @@ pre {
 
 
 <div class="card">
-  <div class="card-header" style="border: none;"><h4>Remote Controller</h4> </div>
+
+    <div class="card-header" style="border: none;">
+        <h4>Network Devices</h4> 
+    </div>
+    <div class="card-body" >
+        <form>
+            <div class="form-row">
+                <div class="col">
+                    <select name="remotecontrol" id="remotecontrol"  class="js-example-basic-single input-lg" style="width: 100%">
+                        <option value="">Select Remote Controller</option>
+                        <option value="Shutdown">Shutdown</option>
+                        <option value="Restart">Restart</option>
+                        <option value="Log Off">Log Off</option>
+                        <option value="Abort">Abort</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" id="ipaddress" placeholder="Input Destination IP Address and choose remote command" name="ipaddress">
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-primary" id="SendRemoteCommand">Remote Command</button>
+                </div>
+            </div>
+        </form>
+        <br />
+        <pre class="anyClass" id="data_configuration">Output Command</pre>
+    </div>
+    <div class="card-footer text-center">
+        <span>Develop By Tineswaran A/L Balakrishen for Network Monitoring For Final Year Project OUM</span>
+    </div>
+    
+
+
+  <!-- <div class="card-header" style="border: none;"><h4>Remote Controller</h4> </div>
   <div class="card-body" >
 
     <form>
@@ -84,7 +117,7 @@ pre {
   </div>
   <div class="card-footer">
     <pre class="anyClass" id="data_configuration">Output Command</pre>
-  </div>
+  </div> -->
 </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
